@@ -6,8 +6,8 @@ name: Extraction of Wiki & Gtrends statistics with Docker Image
 on:
   schedule:
     - cron:  '00 10 2 * *'
- # push:
- #   branches: main
+  push:
+    branches: main
     
 jobs: 
   extract:
@@ -18,17 +18,17 @@ jobs:
     # Load repo and run the extraction script
     steps:
     - uses: actions/checkout@v2
-    - name: Save Gtrends query and Wiki id 
+    - name: 0. Save Gtrends query and Wiki ids 
       run: Rscript 00_save_terms_ids.R
-    - name: Extract Wiki pageview statistics
+    - name: 1. Extract Wiki pageview statistics
       run: Rscript 01_extract_pageviews.R
-    - name: Extract Gtrends statistics
+    - name: 2. Extract Gtrends statistics
       run: Rscript 02_extract_gtrends.R
-    - name: Create summary tables 
-      run: Rscript 02_create_summary_tables.R
-    - name: Install Flexdashboard package
+    - name: 3. Create summary tables 
+      run: Rscript 03_create_summary_tables.R
+    - name: 4. Install Flexdashboard package
       run: Rscript -e "install.packages('flexdashboard')"
-    - name: Update Dashboard for GitHub Pages  
+    - name: 5. Update Dashboard for GitHub Pages  
       run: Rscript -e "rmarkdown::render('index.Rmd')"
       
  # Add new files in specified folder, commit along with other modified files, push
