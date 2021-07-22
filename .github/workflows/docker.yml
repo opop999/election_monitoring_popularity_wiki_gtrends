@@ -1,0 +1,44 @@
+# Automated Google Ads Trends and Wikipedia Article Views extraction with GitHub Actions
+
+name: Extraction of Wiki & Gtrends statistics with Docker Image
+
+# Controls when the action will run.
+on:
+  schedule:
+    - cron:  '00 10 2 * *'
+ # push:
+ #   branches: main
+    
+jobs: 
+  extract:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    container: rocker/tidyverse:latest
+
+    # Load repo and run the extraction script
+    steps:
+    - uses: actions/checkout@v2
+    - name: Save Gtrends query and Wiki id 
+      run: Rscript 00_save_terms_ids.R
+    - name: Extract Wiki pageview statistics
+      run: Rscript 01_extract_pageviews.R
+    - name: Extract Gtrends statistics
+      run: Rscript 02_extract_gtrends.R
+    - name: Create summary tables 
+      run: Rscript 02_create_summary_tables.R
+    - name: Install Flexdashboard package
+      run: Rscript -e "install.packages('flexdashboard')"
+    - name: Update Dashboard for GitHub Pages  
+      run: Rscript -e "rmarkdown::render('index.Rmd')"
+      
+ # Add new files in specified folder, commit along with other modified files, push
+    - name: Commit files
+      run: |
+        git config --local user.name actions-user
+        git config --local user.email "actions@github.com"
+        git add data/* index.html
+        git commit -am "GH Action $(date)"
+        git push origin main
+      env:
+        REPO_KEY: ${{secrets.GITHUB_TOKEN}}
+        username: github-actions
