@@ -4,6 +4,7 @@ author: Ondrej Pekacek/TI CZ
 date: "Last updated `r format (Sys.time(),'%d. %m. %Y')`"
 output: 
   flexdashboard::flex_dashboard:
+    logo: "logo.png"
     theme: cosmo
     orientation: columns
     vertical_layout: fill
