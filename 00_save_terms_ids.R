@@ -2,6 +2,13 @@
 # to be modified. We can add and remove the monitored Wikipedia pages and then
 # we save the list to a rds file, which is read to the main extraction script.
 
+# We have to create a desired directory to output, if one does not yet exist
+if (!dir.exists("data")) {
+  dir.create("data")
+} else {
+  print("Output directory already exists")
+}
+
 article_ids_wiki <- c(
   "ANO_2011",
   "Česká_strana_sociálně_demokratická",
@@ -18,8 +25,7 @@ article_ids_wiki <- c(
   "Občanská_demokratická_strana"
 )
 
-
-saveRDS(article_ids_wiki, "saved_article_ids_wiki.rds", compress = FALSE)
+saveRDS(article_ids_wiki, "data/saved_article_ids_wiki.rds", compress = FALSE)
 
 gtrends_search_terms <- list(
   c(
@@ -42,4 +48,5 @@ gtrends_search_terms <- list(
   )
 )
 
-saveRDS(gtrends_search_terms, "saved_search_terms_gtrends.rds", compress = FALSE)
+
+saveRDS(gtrends_search_terms, "data/saved_search_terms_gtrends.rds", compress = FALSE)

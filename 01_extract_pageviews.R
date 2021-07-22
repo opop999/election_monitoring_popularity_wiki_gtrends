@@ -75,7 +75,7 @@ start_date <- as.Date("2015-01-01")
 
 end_date <- Sys.Date()
 
-article_ids <- readRDS("saved_article_ids_wiki.rds")
+article_ids <- readRDS("data/saved_article_ids_wiki.rds")
 
 precision <- "monthly" # The granularity of data returned. Can be monthly/daily
 

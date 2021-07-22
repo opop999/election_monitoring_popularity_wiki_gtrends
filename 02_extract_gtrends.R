@@ -93,7 +93,7 @@ start_date <- as.Date("2015-07-01")
 
 end_date <- Sys.Date()
 
-search_terms <- readRDS("saved_search_terms_gtrends.rds")
+search_terms <- readRDS("data/saved_search_terms_gtrends.rds")
 
 # Specify output directory
 dir_name <- "data"
