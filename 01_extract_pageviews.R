@@ -62,22 +62,24 @@ extract_wikipedia <- function(article_ids, start_date, end_date, precision, dir_
   # We turn off compression for rds files (optional). Their size is larger, but
   # the advantage are a magnitude faster read/write times using R.
 
-  myfile_csv <- paste0(dir_name, "/full_data.csv")
-  myfile_rds <- paste0(dir_name, "/full_data.rds")
+  myfile_csv <- paste0(dir_name, "/full_data_wiki.csv")
+  myfile_rds <- paste0(dir_name, "/full_data_wiki.rds")
 
   write_excel_csv(x = clean_dataset, file = myfile_csv)
   saveRDS(object = clean_dataset, file = myfile_rds, compress = FALSE)
 }
 
-## 3. SPECIFY INPUTS FOR THE WIKIPEDIA EXTRACTION FUNCTION
+## PART 3: SPECIFY INPUTS FOR THE WIKIPEDIA EXTRACTION FUNCTION
+# The Wikipedia API goes back up to mid 2015
 start_date <- as.Date("2015-01-01")
 
 end_date <- Sys.Date()
 
-article_ids <- readRDS("saved_article_ids.rds")
+article_ids <- readRDS("saved_article_ids_wiki.rds")
 
 precision <- "monthly" # The granularity of data returned. Can be monthly/daily
 
+# Specify output directory
 dir_name <- "data"
 
 

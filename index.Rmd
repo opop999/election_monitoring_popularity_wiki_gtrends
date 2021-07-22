@@ -35,11 +35,14 @@ if (!dir.exists(directory)) {
 }
 
 # Datasets loading
-df_all <- readRDS(file = "data/full_data.rds")
+df_all_wiki <- readRDS(file = "data/full_data_wiki.rds")
+df_all_gtrends <- readRDS(file = "data/full_data_gtrends.rds")
 
-df_total <- readRDS(file = "data/summary_tables/total_views_summary.rds")
+df_total_wiki <- readRDS(file = "data/summary_tables/total_views_summary_wiki.rds")
+df_total_gtrends <- readRDS(file = "data/summary_tables/total_views_summary_gtrends.rds")
 
-df_per_year <- readRDS(file = "data/summary_tables/per_year_views_summary.rds")
+df_per_year_wiki <- readRDS(file = "data/summary_tables/per_year_views_summary_wiki.rds")
+df_per_year_gtrends <- readRDS(file = "data/summary_tables/per_year_views_summary_gtrends.rds")
 
 ```
 
@@ -50,14 +53,15 @@ Total
 Column
 -----------------------------------------------------------------------
 
-### Chart A
+### Chart Wiki Total
 
 ```{r}
-df_total$entity_name <- with(df_total, reorder(entity_name, total_views))
-
-plot_total_views <- ggplotly(
-  df_total %>%
-    mutate(total_views_thousand = total_views / 1000) %>%
+plot_total_views_wiki <- ggplotly(
+  df_total_wiki %>%
+    mutate(
+      entity_name = reorder(entity_name, total_views),
+      total_views_thousand = total_views / 1000
+    ) %>%
     ggplot(aes(x = total_views_thousand, y = entity_name)) +
     geom_col(fill = "#db1d0b") +
     scale_x_continuous(
@@ -70,25 +74,56 @@ plot_total_views <- ggplotly(
     ggtitle("Total views (in thousands) of Wikipedia articles since July 2015")
 )
 
-plot_total_views
+plot_total_views_wiki
 
-htmlwidgets::saveWidget(plot_total_views, file = paste0(directory, "/plot_total_views.html"))
+htmlwidgets::saveWidget(plot_total_views_wiki, file = paste0(directory, "/plot_total_views_wiki.html"))
 
 ```
+
+Column
+-----------------------------------------------------------------------
+
+### Chart Gtrends Total
+
+```{r}
+plot_total_views_gtrends <- ggplotly(
+  df_total_gtrends %>%
+    mutate(entity_name = reorder(entity_name, total_hits)) %>%
+    ggplot(aes(x = total_hits, y = entity_name)) +
+    geom_col(fill = "#03457f") +
+    scale_x_continuous(
+      breaks = seq(0, 500, 50),
+      labels = seq(0, 500, 50)
+    ) +
+    theme_minimal() +
+    xlab(element_blank()) +
+    ylab(element_blank()) +
+    ggtitle("Cumulative intensity of Google searches since July 2015")
+)
+
+plot_total_views_gtrends
+
+htmlwidgets::saveWidget(plot_total_views_wiki, file = paste0(directory, "/plot_total_views_gtrends.html"))
+
+```
+
+
+
 Per Year
 =====================================
 
 Column 
 -----------------------------------------------------------------------
 
-### Chart B
+### Chart Wiki Per Year
 
 ```{r}
-df_per_year$entity_name <- with(df_per_year, reorder(entity_name, total_views))
-
-plot_views_yearly <- ggplotly(
-  df_per_year %>%
-    mutate(total_views_thousand = total_views / 1000) %>%
+plot_views_yearly_wiki <- ggplotly(
+  df_per_year_wiki %>%
+    mutate(
+      entity_name = reorder(entity_name, total_views),
+      total_views_thousand = total_views / 1000
+    ) %>%
     ggplot(aes(x = total_views_thousand, y = entity_name)) +
     geom_col(fill = "#03457f") +
     scale_x_continuous(
@@ -107,12 +142,42 @@ plot_views_yearly <- ggplotly(
     ggtitle("Views (in thousands) per year of Wikipedia articles since July 2015")
 )
 
+plot_views_yearly_wiki
 
-plot_views_yearly
-
-htmlwidgets::saveWidget(plot_total_views, file = paste0(directory, "/plot_views_yearly.html"))
+htmlwidgets::saveWidget(plot_total_views_wiki, file = paste0(directory, "/plot_views_yearly_wiki.html"))
 ```
 
+Column 
+-----------------------------------------------------------------------
+
+### Chart Gtrends Per Year
+
+```{r}
+plot_views_yearly_gtrends <- ggplotly(
+  df_per_year_gtrends %>%
+    mutate(entity_name = reorder(entity_name, total_hits)) %>%
+    ggplot(aes(x = total_hits, y = entity_name)) +
+    geom_col(fill = "#03457f") +
+    scale_x_continuous(
+      breaks = seq(0, 100, 25),
+      labels = seq(0, 100, 25)
+    ) +
+    theme_minimal() +
+    theme(
+      panel.border = element_rect(colour = "black", fill = NA, size = 0.5),
+      panel.spacing.x = unit(0, "line"),
+      strip.background = element_rect(fill = "grey")
+    ) +
+    facet_grid(cols = vars(year)) +
+    xlab(element_blank()) +
+    ylab(element_blank()) +
+    ggtitle("Relative per year intensity of Google searches since July 2015")
+)
+
+plot_views_yearly_gtrends
+
+htmlwidgets::saveWidget(plot_total_views_gtrends, file = paste0(directory, "/plot_views_yearly_gtrends.html"))
+```
 
 Throughout Time
 =====================================
@@ -120,13 +185,13 @@ Throughout Time
 Column 
 -----------------------------------------------------------------------
 
-### Chart C
+### Chart Time-Series Wiki
 
 ```{r}
 election_date <- as.Date("2021-10-08")
 
-views_over_time <- ggplotly(
-  df_all %>%
+views_over_time_wiki <- ggplotly(
+  df_all_wiki %>%
     arrange(date) %>%
     group_by(entity_name) %>%
     mutate(cumulative_views_thousand = cumsum(views) / 1000) %>%
@@ -148,9 +213,46 @@ views_over_time <- ggplotly(
 )
 
 
-views_over_time
+views_over_time_wiki
 
-htmlwidgets::saveWidget(views_over_time, file = paste0(directory, "/views_over_time.html"))
+htmlwidgets::saveWidget(views_over_time_wiki, file = paste0(directory, "/views_over_time_wiki.html"))
+
+```
+
+Column 
+-----------------------------------------------------------------------
+
+### Chart Time-Series Gtrends
+
+```{r}
+election_date <- as.Date("2021-10-08")
+
+views_over_time_gtrends <- ggplotly(
+  df_all_gtrends %>%
+    arrange(date) %>%
+    group_by(entity_name) %>%
+    mutate(cumulative_hits = cumsum(hits)) %>%
+    ggplot(aes(x = as.Date(date), y = cumulative_hits, color = entity_name)) +
+    geom_line() +
+    geom_vline(aes(xintercept = as.numeric(election_date)), color = "#db1d0b") +
+    geom_text(aes(x = election_date, y = 0, label = "elections"), color = "#03457f", size = 4, angle = 90, vjust = -0.4, hjust = 0) +
+    theme_minimal() +
+    scale_y_continuous(
+      breaks = seq(0, 500, 50),
+      labels = seq(0, 500, 50)
+    ) +
+    scale_x_date(date_breaks = "1 years", date_labels = "%Y") +
+    coord_cartesian(xlim = c(as.Date("2015-07-01"), as.Date("2021-12-31"))) +
+    theme(legend.title = element_blank()) +
+    xlab(element_blank()) +
+    ylab(element_blank()) +
+    ggtitle("Relative intensity of Google searches since July 2015")
+)
+
+
+views_over_time_gtrends
+
+htmlwidgets::saveWidget(views_over_time_gtrends, file = paste0(directory, "/views_over_time_gtrends.html"))
 
 ```
 
