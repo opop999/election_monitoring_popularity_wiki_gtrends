@@ -1,13 +1,23 @@
-library(dplyr)
-library(readr)
-library(tidyr)
+# Package names
+packages <- c("dplyr", "tidyr", "readr")
 
+# Install packages not yet installed
+installed_packages <- packages %in% rownames(installed.packages())
+if (any(installed_packages == FALSE)) {
+  install.packages(packages[!installed_packages])
+}
+
+# Packages loading
+invisible(lapply(packages, library, character.only = TRUE))
+
+# Dataset loading
 full_wiki_table <- readRDS("data/full_data.rds")
 
+# Check whether output directory exists
 if (!dir.exists("data/summary_tables")) {
   dir.create("data/summary_tables")
 } else {
-  print("output directory already exists")
+  print("Output directory already exists")
 }
 
 # Creating a summary table focused on the detailed aspects of the advertising
@@ -26,7 +36,7 @@ summary_table_per_year <- full_wiki_table %>%
 
 
 write_csv(summary_table_total, "data/summary_tables/total_views_summary.csv")
-saveRDS(object = summary_table_per_year, file = "data/summary_tables/total_views_summary.rds", compress = FALSE)
+saveRDS(object = summary_table_total, file = "data/summary_tables/total_views_summary.rds", compress = FALSE)
 
-write_csv(summary_wiki_table, "data/summary_tables/per_year_views_summary.csv")
+write_csv(summary_table_per_year, "data/summary_tables/per_year_views_summary.csv")
 saveRDS(object = summary_table_per_year, file = "data/summary_tables/per_year_views_summary.rds", compress = FALSE)

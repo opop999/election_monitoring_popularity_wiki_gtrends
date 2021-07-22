@@ -1,25 +1,49 @@
 ---
-title: "Advertisements Key Insights Summary"
+title: "Dashboard Wikipedia Article Views"
 date: "Last updated `r format (Sys.time(),'%d. %m. %Y')`"
 output: 
   flexdashboard::flex_dashboard:
     orientation: columns
     vertical_layout: fill
-    source_code: embed
+    source_code: https://github.com/opop999/election_monitoring_wiki_popularity
 ---
 
 ```{r setup, include=FALSE}
-library(flexdashboard)
-library(dplyr)
-library(ggplot2)
-library(plotly)
-library(forcats)
+# Disable scientific notation of numbers
+options(scipen = 999)
 
-summary_dataset <- readRDS(file = "data/summary_tables/merged_summary.rds")
+# Package names
+packages <- c("flexdashboard", "dplyr", "ggplot2", "plotly", "forcats", "htmlwidgets")
+
+# Install packages not yet installed
+installed_packages <- packages %in% rownames(installed.packages())
+if (any(installed_packages == FALSE)) {
+  install.packages(packages[!installed_packages])
+}
+
+# Packages loading
+invisible(lapply(packages, library, character.only = TRUE))
+
+# Specify output directory
+directory <- "data/html_plots"
+
+# Check whether output directory exists to save individual plots
+if (!dir.exists(directory)) {
+  dir.create(directory)
+} else {
+  print("Output directory already exists")
+}
+
+# Datasets loading
+df_all <- readRDS(file = "data/full_data.rds")
+
+df_total <- readRDS(file = "data/summary_tables/total_views_summary.rds")
+
+df_per_year <- readRDS(file = "data/summary_tables/per_year_views_summary.rds")
 
 ```
 
-Summary 1
+Total
 =====================================
 
 
@@ -29,28 +53,30 @@ Column
 ### Chart A
 
 ```{r}
-summary_dataset$page_name <- with(summary_dataset, reorder(page_name, total_ads))
+df_total$entity_name <- with(df_total, reorder(entity_name, total_views))
 
-ggplotly(summary_dataset %>%
-  filter(total_ads > 10) %>%
-  ggplot(aes(x = total_ads, y = page_name, fill = percent_unique)) +
-  geom_col() +
-  scale_fill_gradient(
-    low = "#fee0d2", high = "#de2d26",
-    limits = c(0, 1),
-    breaks = c(0, 0.25, 0.50, 0.75, 1),
-    labels = c("0%", "25%", "50%", "75%", "100%")
-  ) +
-  scale_x_continuous(
-    breaks = seq(0, 2500, 250),
-    labels = seq(0, 2500, 250)
-  ) +
-  xlab("Total Ads") +
-  ylab(element_blank()) +
-  labs(fill = "Proportion unique ads") +
-  ggtitle("Ads since 1.1.2021 of pages with more than 10 ads"))
+plot_total_views <- ggplotly(
+  df_total %>%
+    mutate(total_views_thousand = total_views / 1000) %>%
+    ggplot(aes(x = total_views_thousand, y = entity_name)) +
+    geom_col(fill = "#db1d0b") +
+    scale_x_continuous(
+      breaks = seq(0, 500, 50),
+      labels = seq(0, 500, 50)
+    ) +
+    theme_minimal() +
+    xlab(element_blank()) +
+    ylab(element_blank()) +
+    ggtitle("Total views (in thousands) of Wikipedia articles since July 2015")
+)
+
+plot_total_views
+
+htmlwidgets::saveWidget(plot_total_views, file = paste0(directory, "/plot_total_views.html"))
 
 ```
+Per Year
+=====================================
 
 Column 
 -----------------------------------------------------------------------
@@ -58,29 +84,73 @@ Column
 ### Chart B
 
 ```{r}
-summary_dataset$page_name <- with(summary_dataset, reorder(page_name, avg_spend))
+df_per_year$entity_name <- with(df_per_year, reorder(entity_name, total_views))
 
-ggplotly(summary_dataset %>%
-  filter(total_ads > 10) %>%
-  mutate(
-    avg_spend_1000 = round(avg_spend / 1000, digits = 0),
-    per_ad_avg_spend_1000 = round(per_ad_avg_spend / 1000, digits = 0)
-  ) %>%
-  ggplot(aes(x = avg_spend_1000, y = page_name, fill = per_ad_avg_spend_1000)) +
-  geom_col() +
-  scale_fill_gradient(
-    low = "#9ecae1", high = "#3182bd",
-    # limits = c(0, 1),
-    # breaks = c(0, 0.25, 0.50, 0.75, 1),
-    # labels = c("0%", "25%", "50%", "75%", "100%")
-  ) +
-  # scale_x_continuous(breaks = seq(0, 2500, 250),
-  #                   labels = seq(0, 2500, 250)) +
-  xlab("Total Spend (CZK thousands)") +
-  ylab(element_blank()) +
-  labs(fill = "Per Ad (CZK thousands)") +
-  ggtitle("Spending on ads since 1.1.2021"))
+plot_views_yearly <- ggplotly(
+  df_per_year %>%
+    mutate(total_views_thousand = total_views / 1000) %>%
+    ggplot(aes(x = total_views_thousand, y = entity_name)) +
+    geom_col(fill = "#03457f") +
+    scale_x_continuous(
+      breaks = seq(0, 100, 25),
+      labels = seq(0, 100, 25)
+    ) +
+    theme_minimal() +
+    theme(
+      panel.border = element_rect(colour = "black", fill = NA, size = 0.5),
+      panel.spacing.x = unit(0, "line"),
+      strip.background = element_rect(fill = "grey")
+    ) +
+    facet_grid(cols = vars(year)) +
+    xlab(element_blank()) +
+    ylab(element_blank()) +
+    ggtitle("Views (in thousands) per year of Wikipedia articles since July 2015")
+)
+
+
+plot_views_yearly
+
+htmlwidgets::saveWidget(plot_total_views, file = paste0(directory, "/plot_views_yearly.html"))
 ```
-Summary 2
+
+
+Throughout Time
 =====================================
+
+Column 
+-----------------------------------------------------------------------
+
+### Chart C
+
+```{r}
+election_date <- as.Date("2021-10-08")
+
+views_over_time <- ggplotly(
+  df_all %>%
+    arrange(date) %>%
+    group_by(entity_name) %>%
+    mutate(cumulative_views_thousand = cumsum(views) / 1000) %>%
+    ggplot(aes(x = as.Date(date), y = cumulative_views_thousand, color = entity_name)) +
+    geom_line() +
+    geom_vline(aes(xintercept = as.numeric(election_date)), color = "#db1d0b") +
+    geom_text(aes(x = election_date, y = 0, label = "elections"), color = "#03457f", size = 4, angle = 90, vjust = -0.4, hjust = 0) +
+    theme_minimal() +
+    scale_y_continuous(
+      breaks = seq(0, 500, 50),
+      labels = seq(0, 500, 50)
+    ) +
+    scale_x_date(date_breaks = "1 years", date_labels = "%Y") +
+    coord_cartesian(xlim = c(as.Date("2015-07-01"), as.Date("2021-12-31"))) +
+    theme(legend.title = element_blank()) +
+    xlab(element_blank()) +
+    ylab(element_blank()) +
+    ggtitle("Views (in thousands) of Wikipedia articles since July 2015")
+)
+
+
+views_over_time
+
+htmlwidgets::saveWidget(views_over_time, file = paste0(directory, "/views_over_time.html"))
+
+```
 

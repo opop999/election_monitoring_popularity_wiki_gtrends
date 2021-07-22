@@ -31,7 +31,7 @@ extract_wikipedia <- function(article_ids, start_date, end_date, precision, dir_
   if (!dir.exists(dir_name)) {
     dir.create(dir_name)
   } else {
-    print("output directory already exists")
+    print("Output directory already exists")
   }
 
   # Function article_pageviews from the "pageviews" package
