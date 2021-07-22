@@ -1,85 +1,85 @@
 year,entity_name,entity_id,total_hits
-2021,Robert Šlachta,7,137
-2021,KDU-ČSL,4,52
-2021,TOP 09,11,44
-2021,Strana zelených,9,17
-2021,Starostové a nezávislí,8,5
-2021,ANO 2011,1,2
-2021,Česká pirátská strana,2,2
-2021,Svoboda a přímá demokracie,10,1
-2021,Česká strana sociálně demokratická,3,0
+2021,Robert Šlachta,7,167
+2021,TOP 09,11,40
+2021,Strana zelených,9,35
+2021,KDU-ČSL,4,28
+2021,Občanská demokratická strana,6,16
+2021,Svoboda a přímá demokracie,10,5
+2021,ANO 2011,1,4
+2021,Česká pirátská strana,2,4
+2021,Starostové a nezávislí,8,3
+2021,Česká strana sociálně demokratická,3,1
 2021,Komunistická strana Čech a Moravy,5,0
-2021,Občanská demokratická strana,6,0
 2021,Trikolora Svobodní Soukromníci,12,0
-2020,Robert Šlachta,7,95
-2020,KDU-ČSL,4,76
-2020,TOP 09,11,66
-2020,Strana zelených,9,48
-2020,Občanská demokratická strana,6,16
-2020,Starostové a nezávislí,8,13
-2020,ANO 2011,1,11
-2020,Česká pirátská strana,2,9
-2020,Česká strana sociálně demokratická,3,1
-2020,Komunistická strana Čech a Moravy,5,1
-2020,Svoboda a přímá demokracie,10,1
+2020,Robert Šlachta,7,130
+2020,KDU-ČSL,4,125
+2020,TOP 09,11,89
+2020,Strana zelených,9,49
+2020,Občanská demokratická strana,6,26
+2020,Starostové a nezávislí,8,15
+2020,ANO 2011,1,12
+2020,Česká pirátská strana,2,6
+2020,Komunistická strana Čech a Moravy,5,6
+2020,Svoboda a přímá demokracie,10,6
+2020,Česká strana sociálně demokratická,3,0
 2020,Trikolora Svobodní Soukromníci,12,0
-2019,KDU-ČSL,4,77
-2019,TOP 09,11,63
-2019,Strana zelených,9,37
-2019,Robert Šlachta,7,23
-2019,Svoboda a přímá demokracie,10,15
-2019,Česká pirátská strana,2,12
-2019,Občanská demokratická strana,6,9
-2019,Starostové a nezávislí,8,9
+2019,KDU-ČSL,4,150
+2019,TOP 09,11,64
+2019,Robert Šlachta,7,25
+2019,Strana zelených,9,22
+2019,Svoboda a přímá demokracie,10,21
+2019,Česká pirátská strana,2,11
 2019,ANO 2011,1,8
-2019,Česká strana sociálně demokratická,3,4
+2019,Starostové a nezávislí,8,7
+2019,Občanská demokratická strana,6,6
 2019,Komunistická strana Čech a Moravy,5,4
+2019,Česká strana sociálně demokratická,3,3
 2019,Trikolora Svobodní Soukromníci,12,0
-2018,KDU-ČSL,4,140
-2018,TOP 09,11,85
-2018,Strana zelených,9,58
-2018,Občanská demokratická strana,6,30
-2018,ANO 2011,1,23
-2018,Česká pirátská strana,2,14
-2018,Svoboda a přímá demokracie,10,14
-2018,Robert Šlachta,7,13
-2018,Komunistická strana Čech a Moravy,5,10
-2018,Starostové a nezávislí,8,9
-2018,Česká strana sociálně demokratická,3,6
+2018,KDU-ČSL,4,125
+2018,TOP 09,11,89
+2018,Strana zelených,9,52
+2018,Svoboda a přímá demokracie,10,38
+2018,Občanská demokratická strana,6,36
+2018,ANO 2011,1,24
+2018,Robert Šlachta,7,18
+2018,Česká pirátská strana,2,15
+2018,Starostové a nezávislí,8,14
+2018,Česká strana sociálně demokratická,3,10
+2018,Komunistická strana Čech a Moravy,5,2
 2018,Trikolora Svobodní Soukromníci,12,0
-2017,KDU-ČSL,4,209
-2017,Strana zelených,9,198
-2017,TOP 09,11,184
-2017,Starostové a nezávislí,8,44
-2017,Česká pirátská strana,2,37
-2017,Svoboda a přímá demokracie,10,32
-2017,Robert Šlachta,7,28
-2017,ANO 2011,1,24
-2017,Občanská demokratická strana,6,21
-2017,Komunistická strana Čech a Moravy,5,4
-2017,Česká strana sociálně demokratická,3,3
+2017,KDU-ČSL,4,263
+2017,TOP 09,11,195
+2017,Strana zelených,9,188
+2017,Občanská demokratická strana,6,58
+2017,Starostové a nezávislí,8,55
+2017,Česká pirátská strana,2,33
+2017,Robert Šlachta,7,33
+2017,ANO 2011,1,23
+2017,Svoboda a přímá demokracie,10,20
+2017,Česká strana sociálně demokratická,3,8
+2017,Komunistická strana Čech a Moravy,5,6
 2017,Trikolora Svobodní Soukromníci,12,0
-2016,KDU-ČSL,4,138
-2016,Robert Šlachta,7,106
-2016,Strana zelených,9,93
-2016,TOP 09,11,75
-2016,ANO 2011,1,17
-2016,Starostové a nezávislí,8,11
-2016,Komunistická strana Čech a Moravy,5,10
-2016,Občanská demokratická strana,6,6
-2016,Svoboda a přímá demokracie,10,6
-2016,Česká pirátská strana,2,5
-2016,Česká strana sociálně demokratická,3,1
+2016,KDU-ČSL,4,238
+2016,Strana zelených,9,113
+2016,TOP 09,11,90
+2016,Robert Šlachta,7,78
+2016,ANO 2011,1,18
+2016,Občanská demokratická strana,6,17
+2016,Svoboda a přímá demokracie,10,15
+2016,Starostové a nezávislí,8,13
+2016,Česká pirátská strana,2,4
+2016,Komunistická strana Čech a Moravy,5,4
+2016,Česká strana sociálně demokratická,3,2
 2016,Trikolora Svobodní Soukromníci,12,0
-2015,KDU-ČSL,4,49
-2015,Strana zelených,9,32
-2015,TOP 09,11,23
-2015,Svoboda a přímá demokracie,10,8
-2015,ANO 2011,1,6
-2015,Starostové a nezávislí,8,4
-2015,Česká pirátská strana,2,2
+2015,KDU-ČSL,4,100
+2015,Strana zelených,9,46
+2015,TOP 09,11,27
+2015,Svoboda a přímá demokracie,10,16
+2015,Občanská demokratická strana,6,9
+2015,Robert Šlachta,7,8
+2015,ANO 2011,1,7
+2015,Česká pirátská strana,2,3
+2015,Komunistická strana Čech a Moravy,5,3
+2015,Starostové a nezávislí,8,1
 2015,Česká strana sociálně demokratická,3,0
-2015,Komunistická strana Čech a Moravy,5,0
-2015,Občanská demokratická strana,6,0
-2015,Robert Šlachta,7,0
 2015,Trikolora Svobodní Soukromníci,12,0
