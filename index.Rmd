@@ -53,6 +53,10 @@ df_per_year_gtrends <- readRDS(file = "data/summary_tables/per_year_views_summar
 # Election date for vertical line in the time-plots
 election_date <- as.Date("2021-10-08")
 
+# Graph zoom date end & beginning
+start_date <- as.Date("2015-07-01")
+end_date <- as.Date("2021-12-31")
+
 ```
 
 Total
@@ -216,7 +220,7 @@ views_over_time_wiki <- ggplotly(
       labels = seq(0, 500, 50)
     ) +
     scale_x_date(date_breaks = "1 years", date_labels = "%Y") +
-    coord_cartesian(xlim = c(as.Date("2015-07-01"), as.Date("2021-12-31"))) +
+    coord_cartesian(xlim = c(start_date, end_date)) +
     theme(legend.title = element_blank(), axis.text.x = element_text(angle = 45, hjust = 1)) +
     xlab(element_blank()) +
     ylab(element_blank()) +
@@ -251,7 +255,7 @@ views_over_time_gtrends <- ggplotly(
       labels = seq(0, 1000, 100)
     ) +
     scale_x_date(date_breaks = "1 years", date_labels = "%Y") +
-    coord_cartesian(xlim = c(as.Date("2015-07-01"), as.Date("2021-12-31"))) +
+    coord_cartesian(xlim = c(start_date, end_date)) +
     theme(legend.title = element_blank(), axis.text.x = element_text(angle = 45, hjust = 1)) +
     xlab(element_blank()) +
     ylab(element_blank()) +
