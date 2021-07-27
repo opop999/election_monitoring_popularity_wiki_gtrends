@@ -29,8 +29,9 @@ if (any(installed_packages == FALSE)) {
 # Packages loading
 invisible(lapply(packages, library, character.only = TRUE))
 
-# Specify output directory
+# Specify output directory, which we also set as an environmental variable
 directory <- "data/html_plots"
+Sys.setenv(DIRECTORY = directory)
 
 # Check whether output directory exists to save individual plots
 if (!dir.exists(directory)) {
@@ -51,7 +52,6 @@ df_per_year_gtrends <- readRDS(file = "data/summary_tables/per_year_views_summar
 
 # Election date for vertical line in the time-plots
 election_date <- as.Date("2021-10-08")
-
 
 ```
 
@@ -87,7 +87,7 @@ plot_total_views_wiki <- ggplotly(
 
 plot_total_views_wiki
 
-htmlwidgets::saveWidget(plot_total_views_wiki, file = paste0(directory, "/plot_total_views_wiki.html"))
+saveWidget(plot_total_views_wiki, file = paste0(directory, "/plot_total_views_wiki.html"))
 
 ```
 
@@ -114,7 +114,7 @@ plot_total_views_gtrends <- ggplotly(
 
 plot_total_views_gtrends
 
-htmlwidgets::saveWidget(plot_total_views_wiki, file = paste0(directory, "/plot_total_views_gtrends.html"))
+saveWidget(plot_total_views_wiki, file = paste0(directory, "/plot_total_views_gtrends.html"))
 
 ```
 
@@ -156,7 +156,7 @@ plot_views_yearly_wiki <- ggplotly(
 
 plot_views_yearly_wiki
 
-htmlwidgets::saveWidget(plot_total_views_wiki, file = paste0(directory, "/plot_views_yearly_wiki.html"))
+saveWidget(plot_total_views_wiki, file = paste0(directory, "/plot_views_yearly_wiki.html"))
 ```
 
 Column 
@@ -188,7 +188,7 @@ plot_views_yearly_gtrends <- ggplotly(
 
 plot_views_yearly_gtrends
 
-htmlwidgets::saveWidget(plot_total_views_gtrends, file = paste0(directory, "/plot_views_yearly_gtrends.html"))
+saveWidget(plot_total_views_gtrends, file = paste0(directory, "/plot_views_yearly_gtrends.html"))
 ```
 
 Throughout Time
@@ -225,7 +225,7 @@ views_over_time_wiki <- ggplotly(
 
 views_over_time_wiki
 
-htmlwidgets::saveWidget(views_over_time_wiki, file = paste0(directory, "/views_over_time_wiki.html"))
+saveWidget(views_over_time_wiki, file = paste0(directory, "/views_over_time_wiki.html"))
 
 ```
 
@@ -260,7 +260,17 @@ views_over_time_gtrends <- ggplotly(
 
 views_over_time_gtrends
 
-htmlwidgets::saveWidget(views_over_time_gtrends, file = paste0(directory, "/views_over_time_gtrends.html"))
+saveWidget(views_over_time_gtrends, file = paste0(directory, "/views_over_time_gtrends.html"))
 
 ```
 
+```{r cleanup, include=FALSE}
+# Because the saveWidget function does not correctly delete the dependency files
+# which are used to create individual self-sustaining widgets, we have to delete
+# them using bash command, with environmental variable DIRECTORY same as directory
+# set at the very beginning. All non-html files in output folder are deleted.
+
+system("find $DIRECTORY ! -name '*.html' -type f -delete")
+system("find $DIRECTORY -type d -empty -delete")
+
+```
