@@ -1,6 +1,6 @@
 ---
 title: "Wikipedia Article Views & Google Search Intensity"
-author: Ondrej Pekacek/TI CZ
+author: "Ondrej Pekacek/TI CZ"
 date: "Last updated `r format (Sys.time(),'%d. %m. %Y')`"
 output: 
   flexdashboard::flex_dashboard:
@@ -18,7 +18,7 @@ output:
 options(scipen = 999)
 
 # Package names
-packages <- c("flexdashboard", "dplyr", "ggplot2", "plotly", "forcats", "htmlwidgets")
+packages <- c("flexdashboard", "dplyr", "ggplot2", "plotly", "forcats", "htmlwidgets", "stringr")
 
 # Install packages not yet installed
 installed_packages <- packages %in% rownames(installed.packages())
@@ -49,11 +49,14 @@ df_total_gtrends <- readRDS(file = "data/summary_tables/total_views_summary_gtre
 df_per_year_wiki <- readRDS(file = "data/summary_tables/per_year_views_summary_wiki.rds")
 df_per_year_gtrends <- readRDS(file = "data/summary_tables/per_year_views_summary_gtrends.rds")
 
+# Election date for vertical line in the time-plots
+election_date <- as.Date("2021-10-08")
+
+
 ```
 
 Total
 =====================================
-
 
 Column
 -----------------------------------------------------------------------
@@ -65,14 +68,17 @@ plot_total_views_wiki <- ggplotly(
   df_total_wiki %>%
     mutate(
       entity_name = reorder(entity_name, total_views),
-      total_views_thousand = total_views / 1000
+      total_views_thousand = round(total_views / 1000, digits = 0)
     ) %>%
     ggplot(aes(x = total_views_thousand, y = entity_name)) +
     geom_col(fill = "#db1d0b") +
     scale_x_continuous(
-      breaks = seq(0, 500, 50),
-      labels = seq(0, 500, 50)
+      breaks = seq(0, 10000, 50),
+      labels = seq(0, 10000, 50)
     ) +
+    scale_y_discrete(labels = (levels(reorder(df_total_wiki$entity_name, df_total_wiki$total_views)) %>%
+      str_replace_all(pattern = "_", replacement = " ") %>%
+      str_to_title())) +
     theme_minimal() +
     xlab(element_blank()) +
     ylab(element_blank()) +
@@ -97,8 +103,8 @@ plot_total_views_gtrends <- ggplotly(
     ggplot(aes(x = total_hits, y = entity_name)) +
     geom_col(fill = "#03457f") +
     scale_x_continuous(
-      breaks = seq(0, 1000, 100),
-      labels = seq(0, 1000, 100)
+      breaks = seq(0, 10000, 100),
+      labels = seq(0, 10000, 100)
     ) +
     theme_minimal() +
     xlab(element_blank()) +
@@ -113,7 +119,6 @@ htmlwidgets::saveWidget(plot_total_views_wiki, file = paste0(directory, "/plot_t
 ```
 
 
-
 Per Year
 =====================================
 
@@ -125,16 +130,18 @@ Column
 ```{r}
 plot_views_yearly_wiki <- ggplotly(
   df_per_year_wiki %>%
-    mutate(
-      entity_name = reorder(entity_name, total_views),
-      total_views_thousand = total_views / 1000
+    mutate(entity_name = reorder(entity_name, desc(entity_name)),
+      total_views_thousand = round(total_views / 1000, digits = 0)
     ) %>%
     ggplot(aes(x = total_views_thousand, y = entity_name)) +
-    geom_col(fill = "#db1d0b") +
+    geom_col(fill = "#0b92db") +
     scale_x_continuous(
-      breaks = seq(0, 100, 25),
-      labels = seq(0, 100, 25)
+      breaks = seq(0, 200, 25),
+      labels = seq(0, 200, 25)
     ) +
+     scale_y_discrete(labels = (levels(reorder(df_per_year_wiki$entity_name, desc(df_per_year_wiki$entity_name))) %>%
+      str_replace_all(pattern = "_", replacement = " ") %>%
+      str_to_title())) +
     theme_minimal() +
     theme(
       panel.border = element_rect(colour = "black", fill = NA, size = 0.5),
@@ -160,12 +167,12 @@ Column
 ```{r}
 plot_views_yearly_gtrends <- ggplotly(
   df_per_year_gtrends %>%
-    mutate(entity_name = reorder(entity_name, total_hits)) %>%
+    mutate(entity_name = reorder(entity_name, desc(entity_name))) %>%
     ggplot(aes(x = total_hits, y = entity_name)) +
-    geom_col(fill = "#03457f") +
+    geom_col(fill = "#50db0b") +
     scale_x_continuous(
-      breaks = seq(0, 300, 100),
-      labels = seq(0, 300, 100)
+      breaks = seq(0, 1000, 100),
+      labels = seq(0, 1000, 100)
     ) +
     theme_minimal() +
     theme(
@@ -193,13 +200,11 @@ Column
 ### Chart Time-Series Wiki
 
 ```{r}
-election_date <- as.Date("2021-10-08")
-
 views_over_time_wiki <- ggplotly(
   df_all_wiki %>%
     arrange(date) %>%
     group_by(entity_name) %>%
-    mutate(cumulative_views_thousand = cumsum(views) / 1000) %>%
+    mutate(cumulative_views_thousand = round(cumsum(views) / 1000, digits = 1)) %>%
     ungroup() %>% 
     ggplot(aes(x = as.Date(date), y = cumulative_views_thousand, color = entity_name)) +
     geom_line() +
@@ -212,7 +217,7 @@ views_over_time_wiki <- ggplotly(
     ) +
     scale_x_date(date_breaks = "1 years", date_labels = "%Y") +
     coord_cartesian(xlim = c(as.Date("2015-07-01"), as.Date("2021-12-31"))) +
-    theme(legend.title = element_blank()) +
+    theme(legend.title = element_blank(), axis.text.x = element_text(angle = 45, hjust = 1)) +
     xlab(element_blank()) +
     ylab(element_blank()) +
     ggtitle("Views (in thousands) of Wikipedia articles, July 2015-present")
@@ -230,8 +235,6 @@ Column
 ### Chart Time-Series Gtrends
 
 ```{r}
-election_date <- as.Date("2021-10-08")
-
 views_over_time_gtrends <- ggplotly(
   df_all_gtrends %>%
     arrange(date) %>%
@@ -249,7 +252,7 @@ views_over_time_gtrends <- ggplotly(
     ) +
     scale_x_date(date_breaks = "1 years", date_labels = "%Y") +
     coord_cartesian(xlim = c(as.Date("2015-07-01"), as.Date("2021-12-31"))) +
-    theme(legend.title = element_blank()) +
+    theme(legend.title = element_blank(), axis.text.x = element_text(angle = 45, hjust = 1)) +
     xlab(element_blank()) +
     ylab(element_blank()) +
     ggtitle("Relative intensity of Google searches, July 2015-present")
