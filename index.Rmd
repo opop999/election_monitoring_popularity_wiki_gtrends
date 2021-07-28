@@ -86,7 +86,7 @@ plot_total_views_wiki <- ggplotly(
     theme_minimal() +
     xlab(element_blank()) +
     ylab(element_blank()) +
-    ggtitle("Total views (in thousands) of Wikipedia articles, July 2015-present")
+    ggtitle(paste("Total views (in thousands) of Wikipedia articles since", format(start_date, "%d.%m.%Y")))
 )
 
 plot_total_views_wiki
@@ -113,7 +113,7 @@ plot_total_views_gtrends <- ggplotly(
     theme_minimal() +
     xlab(element_blank()) +
     ylab(element_blank()) +
-    ggtitle("Cumulative intensity of Google searches, July 2015-present")
+    ggtitle(paste("Cumulative intensity of Google searches since", format(start_date, "%d.%m.%Y")))
 )
 
 plot_total_views_gtrends
@@ -121,7 +121,6 @@ plot_total_views_gtrends
 saveWidget(plot_total_views_wiki, file = paste0(directory, "/plot_total_views_gtrends.html"))
 
 ```
-
 
 Per Year
 =====================================
@@ -155,7 +154,7 @@ plot_views_yearly_wiki <- ggplotly(
     facet_grid(cols = vars(year)) +
     xlab(element_blank()) +
     ylab(element_blank()) +
-    ggtitle("Views (in thousands) per year of Wikipedia articles, July 2015-present")
+    ggtitle(paste("Views (in thousands) of Wikipedia articles per year since", format(start_date, "%d.%m.%Y")))
 )
 
 plot_views_yearly_wiki
@@ -187,7 +186,7 @@ plot_views_yearly_gtrends <- ggplotly(
     facet_grid(cols = vars(year)) +
     xlab(element_blank()) +
     ylab(element_blank()) +
-    ggtitle("Relative per year intensity of Google searches, July 2015-present")
+    ggtitle(paste("Relative intensity of Google searches per year since", format(start_date, "%d.%m.%Y")))
 )
 
 plot_views_yearly_gtrends
@@ -224,7 +223,7 @@ views_over_time_wiki <- ggplotly(
     theme(legend.title = element_blank(), axis.text.x = element_text(angle = 45, hjust = 1)) +
     xlab(element_blank()) +
     ylab(element_blank()) +
-    ggtitle("Views (in thousands) of Wikipedia articles, July 2015-present")
+    ggtitle(paste("Views (in thousands) of Wikipedia articles since", format(start_date, "%d.%m.%Y")))
 )
 
 views_over_time_wiki
@@ -259,7 +258,7 @@ views_over_time_gtrends <- ggplotly(
     theme(legend.title = element_blank(), axis.text.x = element_text(angle = 45, hjust = 1)) +
     xlab(element_blank()) +
     ylab(element_blank()) +
-    ggtitle("Relative intensity of Google searches, July 2015-present")
+    ggtitle(paste("Relative intensity of Google searches since", format(start_date, "%d.%m.%Y")))
 )
 
 views_over_time_gtrends
