@@ -279,7 +279,6 @@ unlink(grep(
   x = list.files(
     path = directory,
     recursive = TRUE,
-    include.dirs = TRUE,
     full.names = TRUE
   ),
   pattern = "(.html)$",
