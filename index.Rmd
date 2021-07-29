@@ -33,9 +33,8 @@ if (any(installed_packages == FALSE)) {
 # Packages loading
 invisible(lapply(packages, library, character.only = TRUE))
 
-# Specify output directory, which we also set as an environmental variable
+# Specify output directory for individual plots
 directory <- "data/html_plots"
-Sys.setenv(DIRECTORY = directory)
 
 # Check whether output directory exists to save individual plots
 if (!dir.exists(directory)) {
@@ -274,14 +273,20 @@ saveWidget(views_over_time_gtrends, file = paste0(directory, "/views_over_time_g
 ```{r cleanup, include=FALSE}
 # Because the saveWidget function does not correctly delete the dependency files
 # which are used to create individual self-sustaining widgets, we have to delete
-# them using bash command, with environmental variable DIRECTORY same as directory
-# set at the very beginning. All non-html files in output folder are deleted.
+# them using R functions. All non-html files in output folder are deleted.
 
-if (Sys.info()['sysname'] == "Linux") {
-system("find $DIRECTORY ! -name '*.html' -type f -delete")
-system("find $DIRECTORY -type d -empty -delete")
-} else {
-  print("OS not Linux")
-}
+unlink(grep(
+  x = list.files(
+    path = directory,
+    recursive = TRUE,
+    include.dirs = TRUE,
+    full.names = TRUE
+  ),
+  pattern = "(.html)$",
+  invert = TRUE,
+  value = TRUE
+),
+recursive = TRUE
+)
 
 ```
