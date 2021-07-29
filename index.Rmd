@@ -277,7 +277,11 @@ saveWidget(views_over_time_gtrends, file = paste0(directory, "/views_over_time_g
 # them using bash command, with environmental variable DIRECTORY same as directory
 # set at the very beginning. All non-html files in output folder are deleted.
 
+if (Sys.info()['sysname'] == "Linux") {
 system("find $DIRECTORY ! -name '*.html' -type f -delete")
 system("find $DIRECTORY -type d -empty -delete")
+} else {
+  print("OS not Linux")
+}
 
 ```
