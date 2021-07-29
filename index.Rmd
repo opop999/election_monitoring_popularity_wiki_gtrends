@@ -10,7 +10,11 @@ output:
     vertical_layout: fill
     source_code: https://github.com/opop999/election_monitoring_wiki_popularity
     navbar:
-      - {title: "About", icon: "ion-information-circled", href: "https://www.transparentnivolby.cz/snemovna2021"}
+      - {title: "About Project", icon: "ion-information-circled", href: "https://www.transparentnivolby.cz/snemovna2021"}
+      - {title: "About Author", icon: "ion-social-linkedin", href: "https://www.linkedin.com/in/ondrej-pekacek"}
+      - {title: "Data: Google", icon: "ion-cloud", href: "https://trends.google.com/"}
+      - {title: "Data: Wikipedia", icon: "ion-cloud", href: "https://www.mediawiki.org/wiki/API:Main_page"}
+      
 ---
 
 ```{r setup, include=FALSE}
