@@ -285,8 +285,6 @@ unlink(grep(
   pattern = "(.html)$",
   invert = TRUE,
   value = TRUE
-),
-recursive = TRUE
-)
+))
 
 ```
