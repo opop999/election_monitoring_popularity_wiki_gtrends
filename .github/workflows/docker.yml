@@ -19,17 +19,19 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: 0. Save Gtrends query and Wiki ids
-      run: Rscript --vanilla 00_save_terms_ids.R
+      run: Rscript 00_save_terms_ids.R
     - name: 1. Extract Wiki pageview statistics
-      run: Rscript --vanilla 01_extract_pageviews.R
+      run: Rscript 01_extract_pageviews.R
     - name: 2. Extract Gtrends statistics
-      run: Rscript --vanilla 02_extract_gtrends.R
+      run: Rscript 02_extract_gtrends.R
     - name: 3. Create summary tables
-      run: Rscript --vanilla 03_create_summary_tables.R
+      run: Rscript 03_create_summary_tables.R
     - name: 4. Install Flexdashboard package
-      run: Rscript -e "install.packages('flexdashboard', repos = 'http://cran.rstudio.com', dependencies = TRUE)"
+      run: Rscript -e "install.packages('flexdashboard')"
     - name: 5. Update Dashboard for GitHub Pages
-      run: Rscript --vanilla -e "rmarkdown::render('index.Rmd')"
+      run: Rscript -e "rmarkdown::render('index.Rmd')"
+    - name: 6. Print information about the session
+      run: Rscript -e "sessionInfo()"
 
  # Add new files in specified folder, commit along with other modified files, push
     - name: Commit files
