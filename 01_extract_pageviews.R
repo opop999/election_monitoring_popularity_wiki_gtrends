@@ -12,7 +12,7 @@
 # PART 1: LOAD THE REQUIRED R LIBRARIES
 
 # Package names
-packages <- c("dplyr", "pageviews", "readr")
+packages <- c("dplyr", "pageviews", "data.table", "arrow")
 
 # Install packages not yet installed
 installed_packages <- packages %in% rownames(installed.packages())
@@ -62,11 +62,9 @@ extract_wikipedia <- function(article_ids, start_date, end_date, precision, dir_
   # We turn off compression for rds files (optional). Their size is larger, but
   # the advantage are a magnitude faster read/write times using R.
 
-  myfile_csv <- paste0(dir_name, "/full_data_wiki.csv")
-  myfile_rds <- paste0(dir_name, "/full_data_wiki.rds")
-
-  write_excel_csv(x = clean_dataset, file = myfile_csv)
-  saveRDS(object = clean_dataset, file = myfile_rds, compress = FALSE)
+  fwrite(x = clean_dataset, file = paste0(dir_name, "/full_data_wiki.csv"))
+  saveRDS(object = clean_dataset, file = paste0(dir_name, "/full_data_wiki.rds"), compress = FALSE)
+  write_feather(x = clean_dataset, sink = paste0(dir_name, "/full_data_wiki.feather"))
 }
 
 ## PART 3: SPECIFY INPUTS FOR THE WIKIPEDIA EXTRACTION FUNCTION
@@ -82,9 +80,7 @@ precision <- "monthly" # The granularity of data returned. Can be monthly/daily
 # Specify output directory
 dir_name <- "data"
 
-
 # PART 4: RUNNING THE FUNCTION WITH APPROPRIATE ARGUMENTS
-
 extract_wikipedia(
   article_ids = article_ids,
   start_date = start_date,

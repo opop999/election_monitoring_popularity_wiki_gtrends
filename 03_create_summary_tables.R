@@ -1,5 +1,5 @@
 # Package names
-packages <- c("dplyr", "tidyr", "readr")
+packages <- c("dplyr", "tidyr", "data.table")
 
 # Install packages not yet installed
 installed_packages <- packages %in% rownames(installed.packages())
@@ -48,17 +48,16 @@ summary_table_per_year_gtrend <- full_gtrends_table %>%
   arrange(desc(year), desc(total_hits)) %>%
   ungroup()
 
-
 # Saving Wikipedia summaries
-write_csv(summary_table_total_wiki, "data/summary_tables/total_views_summary_wiki.csv")
+fwrite(summary_table_total_wiki, "data/summary_tables/total_views_summary_wiki.csv")
 saveRDS(object = summary_table_total_wiki, file = "data/summary_tables/total_views_summary_wiki.rds", compress = FALSE)
 
-write_csv(summary_table_per_year_wiki, "data/summary_tables/per_year_views_summary_wiki.csv")
+fwrite(summary_table_per_year_wiki, "data/summary_tables/per_year_views_summary_wiki.csv")
 saveRDS(object = summary_table_per_year_wiki, file = "data/summary_tables/per_year_views_summary_wiki.rds", compress = FALSE)
 
 # Saving Gtrend summaries
-write_csv(summary_table_total_gtrends, "data/summary_tables/total_views_summary_gtrends.csv")
+fwrite(summary_table_total_gtrends, "data/summary_tables/total_views_summary_gtrends.csv")
 saveRDS(object = summary_table_total_gtrends, file = "data/summary_tables/total_views_summary_gtrends.rds", compress = FALSE)
 
-write_csv(summary_table_per_year_gtrend, "data/summary_tables/per_year_views_summary_gtrends.csv")
+fwrite(summary_table_per_year_gtrend, "data/summary_tables/per_year_views_summary_gtrends.csv")
 saveRDS(object = summary_table_per_year_gtrend, file = "data/summary_tables/per_year_views_summary_gtrends.rds", compress = FALSE)

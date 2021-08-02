@@ -11,7 +11,7 @@
 # PART 1: LOAD THE REQUIRED R LIBRARIES
 
 # Package names
-packages <- c("dplyr", "gtrendsR", "readr", "stringr", "tidyr")
+packages <- c("dplyr", "gtrendsR", "data.table", "arrow", "stringr", "tidyr")
 
 # Install packages not yet installed
 installed_packages <- packages %in% rownames(installed.packages())
@@ -73,17 +73,15 @@ extract_gtrends <- function(search_terms, start_date, end_date, dir_name) {
     ) %>%
     arrange(desc(date))
 
-
   # We save the cleaned tables in a memory to a dedicated csv and rds file
   # Rds enables faster reading when using the dataset in R for further analyses
   # We turn off compression for rds files (optional). Their size is larger, but
   # the advantage are a magnitude faster read/write times using R.
 
-  myfile_csv <- paste0(dir_name, "/full_data_gtrends.csv")
-  myfile_rds <- paste0(dir_name, "/full_data_gtrends.rds")
+  fwrite(x = clean_dataset, file = paste0(dir_name, "/full_data_gtrends.csv"))
+  saveRDS(object = clean_dataset, file = paste0(dir_name, "/full_data_gtrends.rds"), compress = FALSE)
+  write_feather(x = clean_dataset, sink = paste0(dir_name, "/full_data_gtrends.feather"))
 
-  write_excel_csv(x = clean_dataset, file = myfile_csv)
-  saveRDS(object = clean_dataset, file = myfile_rds, compress = FALSE)
 }
 
 
