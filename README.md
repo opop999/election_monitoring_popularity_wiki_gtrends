@@ -6,8 +6,20 @@
 
 ## Goal: Extraction & analysis of the popularity metrics of political entities using Google Trends and Wikipedia page readership data
 
-### Target searched entities:
+### Target searched entities (work in progress):
 
 | **POLITICAL SUBJECT**                 | 
 | :---                                  | 
-|                                       | 
+| ANO 2011                              |
+| Česká strana sociálně demokratická    |
+| Starostové a nezávislí                |
+| TOP 09                                |
+| Česká pirátská strana                 |
+| Svoboda a přímá demokracie            |
+| Trikolora Svobodní Soukromníci        |
+| Trikolóra hnutí občanů                |
+| Komunistická strana Čech a Moravy     |
+| Strana zelených                       |
+| Přísaha                               |
+| KDU-ČSL                               |
+| Občanská demokratická strana          |                          
