@@ -4,7 +4,7 @@ author: "Ondrej Pekacek/TI CZ"
 date: "Last updated `r format(Sys.time(),'%d. %m. %Y')`"
 output: 
   flexdashboard::flex_dashboard:
-    logo: "data/logo_ti.png"
+    logo: "doc/logo_ti.png"
     theme: cosmo
     orientation: columns
     vertical_layout: fill
@@ -218,8 +218,8 @@ views_over_time_wiki <- ggplotly(
     geom_text(aes(x = election_date, y = 0, label = "elections"), color = "#03457f", size = 4, angle = 90, vjust = -0.4, hjust = 0) +
     theme_minimal() +
     scale_y_continuous(
-      breaks = seq(0, 500, 50),
-      labels = seq(0, 500, 50)
+      breaks = seq(0, 5000, 50),
+      labels = seq(0, 5000, 50)
     ) +
     scale_x_date(date_breaks = "1 years", date_labels = "%Y") +
     coord_cartesian(xlim = c(start_date, end_date)) +
@@ -253,8 +253,8 @@ views_over_time_gtrends <- ggplotly(
     geom_text(aes(x = election_date, y = 0, label = "elections"), color = "#03457f", size = 4, angle = 90, vjust = -0.4, hjust = 0) +
     theme_minimal() +
     scale_y_continuous(
-      breaks = seq(0, 1000, 100),
-      labels = seq(0, 1000, 100)
+      breaks = seq(0, 10000, 100),
+      labels = seq(0, 10000, 100)
     ) +
     scale_x_date(date_breaks = "1 years", date_labels = "%Y") +
     coord_cartesian(xlim = c(start_date, end_date)) +
