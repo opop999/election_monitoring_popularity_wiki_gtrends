@@ -6,6 +6,11 @@
 
 ## Goal: Extraction & analysis of the popularity metrics of political entities using Google Trends and Wikipedia page readership data
 
+### Data: 
+- Google Trends: Obtained through gtrendsR R package, which provides interface to the information regarding Google searches and their relative popularity (0-100)
+- Wikipedia: Through pageviews R package, which accesses the MediaWiki API, gathering information about the number of visits to individual Wiki pages
+
+
 ### Target searched entities (work in progress):
 
 | **POLITICAL SUBJECT**                 | 
